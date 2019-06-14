@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GlassVolume", "GlassVolume\GlassVolume.vcxproj", "{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Debug|x64.ActiveCfg = Debug|x64
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Debug|x64.Build.0 = Debug|x64
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Debug|x86.ActiveCfg = Debug|Win32
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Debug|x86.Build.0 = Debug|Win32
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Release|x64.ActiveCfg = Release|x64
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Release|x64.Build.0 = Release|x64
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Release|x86.ActiveCfg = Release|Win32
+		{EE85993A-C078-4904-A1DA-F4ADB7B1FC7C}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB98C8E0-3D2E-4A42-A130-58E843E975B8}
+	EndGlobalSection
+EndGlobal
