@@ -3,7 +3,7 @@
 #include "Volume.h"
 
 
-Volume::Volume()
+Volume::Volume(TIFFTexture *tex)
 {
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -118,12 +118,16 @@ Volume::Volume()
 	glEnableVertexAttribArray(texcoordsAttrib);
 	glVertexAttribPointer(texcoordsAttrib, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-	uniColor = glGetUniformLocation(shaderProgram, "objColor");
+	uniDims = glGetUniformLocation(shaderProgram, "volume_dims");
 	uniTrans = glGetUniformLocation(shaderProgram, "model");
 	uniView = glGetUniformLocation(shaderProgram, "view");
 	uniProj = glGetUniformLocation(shaderProgram, "proj");
+	uniEye = glGetUniformLocation(shaderProgram, "eyePos");
+	uniVolumeTexture = glGetUniformLocation(shaderProgram, "volumeTexture");
 
-	glUniform4f(uniColor, 1.0f, 0.0f, 0.0f, 1.0f);
+	//the volume texture should always be 0
+	glUniform1i(uniVolumeTexture, 0);
+	glUniform3i(uniDims, tex->width, tex->height, tex->depth);
 }
 
 void Volume::render(Camera &camera)
@@ -136,6 +140,7 @@ void Volume::render(Camera &camera)
 	glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera.view));
 	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(camera.proj));
+	glUniform3f(uniEye, camera.position.x, camera.position.y, camera.position.z);
 
 	glDrawElements(GL_TRIANGLES, triangles.size(), GL_UNSIGNED_INT, 0);
 }

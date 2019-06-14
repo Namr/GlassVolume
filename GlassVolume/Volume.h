@@ -15,6 +15,7 @@
 #include "tiny_obj_loader.h"
 
 #include "Camera.h"
+#include "TIFFTexture.h"
 
 class Volume
 {
@@ -22,13 +23,13 @@ class Volume
 	std::string modelPath = "assets/box.obj";
 	unsigned int VAO, VBO, EBO;
 	GLuint shaderProgram;
-	GLint uniTrans, uniView, uniProj, uniColor;
+	GLint uniTrans, uniView, uniProj, uniDims, uniVolumeTexture, uniEye;
 	std::vector<GLuint> triangles;
 	std::vector<float> vertices;
 	std::vector<float> normals;
 
 public:
-	Volume();
+	Volume(TIFFTexture *tex);
 	~Volume();
 	void render(Camera &camera);
 	glm::mat4 model;
