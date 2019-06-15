@@ -19,7 +19,7 @@ void main()
 {
     gl_Position = proj * view * model * vec4(position, 1.0);
     TexCoords = texCoords;
-    FragPos = vec3(model * vec4(position, 1.0));
+    FragPos = position;
     Normal = normal;
 
 	transformed_eye = eyePos;

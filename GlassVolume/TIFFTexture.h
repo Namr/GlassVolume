@@ -8,7 +8,7 @@
 
 class TIFFTexture
 {
-	uint16_t *data;
+	uint8_t *data;
 	GLuint texture;
 public:
 	TIFFTexture(std::string filepath);

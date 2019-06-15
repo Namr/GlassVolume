@@ -124,9 +124,12 @@ Volume::Volume(TIFFTexture *tex)
 	uniProj = glGetUniformLocation(shaderProgram, "proj");
 	uniEye = glGetUniformLocation(shaderProgram, "eyePos");
 	uniVolumeTexture = glGetUniformLocation(shaderProgram, "volumeTexture");
+	uniTransferFunc = glGetUniformLocation(shaderProgram, "transfer_fcn"); 
 
 	//the volume texture should always be 0
 	glUniform1i(uniVolumeTexture, 0);
+	glUniform1i(uniTransferFunc, 1);
+
 	glUniform3i(uniDims, tex->width, tex->height, tex->depth);
 }
 

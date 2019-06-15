@@ -27,8 +27,8 @@ TIFFTexture::TIFFTexture(std::string filename)
 		TIFFGetField(image, TIFFTAG_IMAGELENGTH, &height);
 		if (width > 0 && height > 0 && depth > 0)
 		{
-			uint16_t *buf = (uint16_t *)_TIFFmalloc(width * sizeof(uint16_t));
-			data = new uint16_t[height * width * depth];
+			uint8_t *buf = (uint8_t *)_TIFFmalloc(width * sizeof(uint8_t));
+			data = new uint8_t[height * width * depth];
 
 			for (int layer = 0; layer < depth; layer++)
 			{
@@ -52,7 +52,7 @@ TIFFTexture::TIFFTexture(std::string filename)
 			glBindTexture(GL_TEXTURE_3D, texture);
 
 			//allocate memory for the incoming data and upload it
-			glTexImage3D(GL_TEXTURE_3D, 0, GL_R16, width, height, depth, 0, GL_RED, GL_UNSIGNED_SHORT, data);
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0, GL_RED, GL_UNSIGNED_BYTE, data);
 
 			free(data);
 
@@ -67,6 +67,29 @@ TIFFTexture::TIFFTexture(std::string filename)
 	{
 		std::cerr << "Error Loading TIFF Image" << std::endl;
 	}
+
+	//generate the color picking texture
+
+	uint8_t colorPickerData[30];
+
+	for (int i = 0; i < 10; i++)
+	{
+		colorPickerData[(i * 3) + 0] = 0;
+		colorPickerData[(i * 3) + 1] = (10 - i / 10) * 255;
+		colorPickerData[(i * 3) + 2] = 0;
+	}
+	glActiveTexture(GL_TEXTURE1);
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_1D, texture);
+
+	//allocate memory for the incoming data and upload it
+	glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB8, 10, 0, GL_GREEN, GL_UNSIGNED_BYTE, colorPickerData);
+
+	//Set Texture Parameters
+	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 
