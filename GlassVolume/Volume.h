@@ -23,7 +23,8 @@ class Volume
 	std::string modelPath = "assets/box.obj";
 	unsigned int VAO, VBO, EBO;
 	GLuint shaderProgram;
-	GLint uniTrans, uniView, uniProj, uniDims, uniVolumeTexture, uniTransferFunc, uniEye;
+	GLint uniTrans, uniView, uniProj, uniEye;
+	GLint uniDims, uniVolumeTexture, uniTransferFunc;
 	std::vector<GLuint> triangles;
 	std::vector<float> vertices;
 	std::vector<float> normals;

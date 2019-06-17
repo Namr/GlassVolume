@@ -54,7 +54,7 @@ void main(void) {
 		// and just use the sample value as the opacity
 		float val = texture(volumeTexture, p).r;
 		vec4 val_color = vec4(val);
-		//if(FragPos.x > 0)
+		//if(p.x > 0.5)
 			//val_color = vec4(texture(transfer_fcn, val).rgb, val);
 
 		// Step 4.2: Accumulate the color and opacity using the front-to-back
