@@ -47,7 +47,7 @@ TIFFTexture::TIFFTexture(std::string filename)
 			TIFFClose(image);
 
 			//generate the buffers for the texture data which will be supplied by another function
-			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE3);
 			glGenTextures(1, &texture);
 			glBindTexture(GL_TEXTURE_3D, texture);
 
@@ -78,7 +78,7 @@ TIFFTexture::TIFFTexture(std::string filename)
 		colorPickerData[(i * 3) + 1] = (10 - i / 10) * 255;
 		colorPickerData[(i * 3) + 2] = 0;
 	}
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE4);
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_1D, texture);
 
@@ -90,6 +90,7 @@ TIFFTexture::TIFFTexture(std::string filename)
 	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glActiveTexture(GL_TEXTURE0);
 }
 
 

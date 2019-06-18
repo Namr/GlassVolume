@@ -126,9 +126,9 @@ Volume::Volume(TIFFTexture *tex)
 	uniVolumeTexture = glGetUniformLocation(shaderProgram, "volumeTexture");
 	uniTransferFunc = glGetUniformLocation(shaderProgram, "transfer_fcn"); 
 
-	//the volume texture should always be 0
-	glUniform1i(uniVolumeTexture, 0);
-	glUniform1i(uniTransferFunc, 1);
+	//the volume texture should always be 3
+	glUniform1i(uniVolumeTexture, 3);
+	glUniform1i(uniTransferFunc, 4);
 
 	glUniform3i(uniDims, tex->width, tex->height, tex->depth);
 }
@@ -143,6 +143,7 @@ void Volume::render(Camera &camera)
 	glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera.view));
 	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(camera.proj));
+	
 	glUniform3f(uniEye, camera.position.x, camera.position.y, camera.position.z);
 
 	glDrawElements(GL_TRIANGLES, triangles.size(), GL_UNSIGNED_INT, 0);
