@@ -33,13 +33,14 @@ void main(void) {
 	// Step 2: Intersect the ray with the volume bounds to find the interval
 	// along the ray overlapped by the volume.
 	vec2 t_hit = intersect_box(transformed_eye, ray_dir);
-	if (t_hit.x > t_hit.y) {
-		discard;
-	}
+
 	// We don't want to sample voxels behind the eye if it's
 	// inside the volume, so keep the starting point at or in front
 	// of the eye
 	t_hit.x = max(t_hit.x, 0.0);
+	if (t_hit.x > t_hit.y) {
+		//discard;
+	}
 
 	// Step 3: Compute the step size to march through the volume grid
 	vec3 dt_vec = 1.0 / (vec3(volume_dims) * abs(ray_dir));
@@ -68,4 +69,6 @@ void main(void) {
 		}
 		p += ray_dir * dt;
 	}
+
+	//outColor = vec4(1.0, 0.0, 0.0, 1.0);
 }

@@ -17,9 +17,9 @@ flat out vec3 transformed_eye;
 
 void main()
 {
-    gl_Position = proj * view * model * vec4(position, 1.0);
+    gl_Position = proj * view * model * vec4(position - vec3(0.5), 1.0);
     TexCoords = texCoords;
-    FragPos = position;
+    FragPos = vec3(model * vec4(position, 1.0));
     Normal = normal;
 
 	transformed_eye = eyePos;
