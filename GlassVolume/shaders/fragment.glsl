@@ -27,6 +27,9 @@ vec2 intersect_box(vec3 orig, vec3 dir) {
 }
 
 void main(void) {
+	vec3 lightPos = vec3(0, 2, 2);
+	vec3 lightColor = vec3(1, 1, 1);
+	float ambientStrength = 0.0;
 	// Step 1: Normalize the view ray
 	vec3 ray_dir = normalize(vray_dir);
 
@@ -48,14 +51,24 @@ void main(void) {
 		//if(p.x > 0.5)
 			val_color = vec4(texture(transfer_fcn, val).rgb, val);
 
+		vec3 gradient = vec3(0.5 * texture(volumeTexture, vec3(rotP.x + dt, rotP.y, rotP.z)).r - texture(volumeTexture, vec3(rotP.x - dt, rotP.y, rotP.z)).r,
+							 0.5 * texture(volumeTexture, vec3(rotP.x, rotP.y + dt, rotP.z)).r - texture(volumeTexture, vec3(rotP.x - dt, rotP.y - dt, rotP.z)).r,
+							 0.5 * texture(volumeTexture, vec3(rotP.x, rotP.y, rotP.z + dt)).r - texture(volumeTexture, vec3(rotP.x - dt, rotP.y, rotP.z - dt)).r
+		);
+		vec3 lightDir = normalize(lightPos - p);
+		vec3 ambient = ambientStrength * lightColor;
+		float diff = max(dot(gradient, lightDir), 0.0);
+		val_color += vec4((diff * lightColor) + ambient, val_color.a);
 		// Step 4.2: Accumulate the color and opacity using the front-to-back
 		// compositing equation
 		outColor.rgb += (1.0 - outColor.a) * val_color.a * val_color.rgb;
 		outColor.a += (1.0 - outColor.a) * val_color.a;
 
+
 		// Optimization: break out of the loop when the color is near opaque
-		if (outColor.a >= 0.95) {
-			//break;
+		if (outColor.a >= 0.85) {
+			//calculate gradient at this point and use that as surface normal
+			break;
 		}
 
 		if(max(rotP.x, max(rotP.y, rotP.z)) > 1.1 || min(rotP.x, min(rotP.y, rotP.z)) < -0.1)
