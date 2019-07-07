@@ -7,9 +7,11 @@ in vec3 vray_dir;
 flat in vec3 transformed_eye;
 
 uniform sampler3D volumeTexture;
+uniform sampler3D gradientTexture;
 uniform sampler1D transfer_fcn;
 uniform ivec3 volume_dims;
 uniform mat4 model;
+uniform vec3 eyePos;
 
 out vec4 outColor;
 
@@ -28,8 +30,9 @@ vec2 intersect_box(vec3 orig, vec3 dir) {
 
 void main(void) {
 	vec3 lightPos = vec3(0, 2, 2);
-	vec3 lightColor = vec3(1, 1, 1);
-	float ambientStrength = 0.0;
+	vec3 lightColor = vec3(0.5, 0.5, 0.5);
+
+	float ambientStrength = 0.5;
 	// Step 1: Normalize the view ray
 	vec3 ray_dir = normalize(vray_dir);
 
@@ -51,23 +54,22 @@ void main(void) {
 		//if(p.x > 0.5)
 			val_color = vec4(texture(transfer_fcn, val).rgb, val);
 
-		vec3 gradient = vec3(0.5 * texture(volumeTexture, vec3(rotP.x + dt, rotP.y, rotP.z)).r - texture(volumeTexture, vec3(rotP.x - dt, rotP.y, rotP.z)).r,
-							 0.5 * texture(volumeTexture, vec3(rotP.x, rotP.y + dt, rotP.z)).r - texture(volumeTexture, vec3(rotP.x - dt, rotP.y - dt, rotP.z)).r,
-							 0.5 * texture(volumeTexture, vec3(rotP.x, rotP.y, rotP.z + dt)).r - texture(volumeTexture, vec3(rotP.x - dt, rotP.y, rotP.z - dt)).r
-		);
-		vec3 lightDir = normalize(lightPos - p);
-		vec3 ambient = ambientStrength * lightColor;
-		float diff = max(dot(gradient, lightDir), 0.0);
-		val_color += vec4((diff * lightColor) + ambient, val_color.a);
 		// Step 4.2: Accumulate the color and opacity using the front-to-back
 		// compositing equation
+		vec3 gradient = vec3(model * vec4(texture(gradientTexture, rotP).rgb - vec3(0.5), 1.0));
+		vec3 lightDir = normalize(lightPos - p);
+		vec3 cameraDir = normalize(eyePos - p);
+
+		vec3 ambient = ambientStrength * lightColor;
+		float diff = max(dot(gradient, lightDir), 0.0);
+		vec3 lightOutput = (diff * lightColor) + ambient;
+		val_color *= vec4(lightOutput, 1.0);
+
 		outColor.rgb += (1.0 - outColor.a) * val_color.a * val_color.rgb;
 		outColor.a += (1.0 - outColor.a) * val_color.a;
 
-
 		// Optimization: break out of the loop when the color is near opaque
 		if (outColor.a >= 0.85) {
-			//calculate gradient at this point and use that as surface normal
 			break;
 		}
 

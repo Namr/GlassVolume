@@ -9,6 +9,7 @@
 class TIFFTexture
 {
 	uint8_t *data;
+	uint8_t *gradient;
 	GLuint texture;
 public:
 	TIFFTexture(std::string filepath);

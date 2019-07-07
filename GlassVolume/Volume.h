@@ -24,7 +24,7 @@ class Volume
 	unsigned int VAO, VBO, EBO;
 	GLuint shaderProgram;
 	GLint uniTrans, uniView, uniProj, uniEye;
-	GLint uniDims, uniVolumeTexture, uniTransferFunc;
+	GLint uniDims, uniVolumeTexture, uniGradientTexture, uniTransferFunc;
 	std::vector<GLuint> triangles;
 	std::vector<float> vertices;
 	std::vector<float> normals;
