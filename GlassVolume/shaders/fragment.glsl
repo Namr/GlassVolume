@@ -32,7 +32,7 @@ void main(void) {
 	vec3 lightPos = vec3(0, 2, 2);
 	vec3 lightColor = vec3(0.5, 0.5, 0.5);
 
-	float ambientStrength = 0.5;
+	float ambientStrength = 0.01; //0.7 non segmented version, 0.01 segmented
 	// Step 1: Normalize the view ray
 	vec3 ray_dir = normalize(vray_dir);
 
@@ -40,11 +40,12 @@ void main(void) {
 	// Step 3: Compute the step size to march through the volume grid
 	vec3 dt_vec = 1.0 / (vec3(volume_dims) * abs(ray_dir));
 	float dt = min(dt_vec.x, min(dt_vec.y, dt_vec.z));
-
+	dt *= 2;
 	// Step 4: Starting from the entry point, march the ray through the volume
 	// and sample it
 	vec3 p = FragPos;
-	while(true) {
+	while(true) 
+	{
 		vec3 rotP = vec3(inverse(model) * vec4(p, 1.0)) + vec3(0.5);
 		// Step 4.1: Sample the volume, and color it by the transfer function.
 		// Note that here we don't use the opacity from the transfer function,
@@ -69,7 +70,8 @@ void main(void) {
 		outColor.a += (1.0 - outColor.a) * val_color.a;
 
 		// Optimization: break out of the loop when the color is near opaque
-		if (outColor.a >= 0.85) {
+		if (outColor.a >= 0.85) 
+		{
 			break;
 		}
 

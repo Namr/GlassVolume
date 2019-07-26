@@ -111,7 +111,7 @@ TIFFTexture::TIFFTexture(std::string filename)
 
 	//generate the color picking texture
 
-	int numShades = 50;
+	int numShades = 500;
 	uint8_t *colorPickerData = new uint8_t[numShades * 3];
 	
 	for (int i = 0; i < numShades;i++)
